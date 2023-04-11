@@ -43,8 +43,9 @@ def get_nifti(path):
 
     return (sample_nifti - min)/(max - min)
 
-#Filters the NIFTI image into [1,2,3,4]
+#Filters the NIFTI image into [0,1,2,3,4]
 def filter_nifti(nifti_array: np.ndarray, filter: List[float]):
+    #make the range [0,4] -> nearest integer -> filter
     img = np.rint(nifti_array*4)
     array_filter = np.array(filter)
     img[np.isin(img, array_filter)] = 10.
