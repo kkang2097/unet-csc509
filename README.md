@@ -1,7 +1,7 @@
 # unet-csc509
 
-- Trying to write a custom implementation of U-Net in PyTorch
-- idea: Use stochastic weight averaging (SWA) to improve loss
+- Implementation of U-Net (credits in /models/unet.py)
+- wrote DataLoader mostly from scratch
 
 
 Improvements over Colab Notebook:
@@ -12,5 +12,8 @@ Improvements over Colab Notebook:
 **done**
 #### Step 2: Write DataLoader (so we get 'X' and 'Y' easily)
 **done**
-#### Step 3: Write U-Net model
-#### Step 4: Measure loss, etc.
+
+#### Step 3: Use U-Net PyTorch
+**done**
+
+#### Step 4: Write new model
