@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import Dataset
 import numpy as np
-import image_utils as img_utils
+import models.image_utils as img_utils
 from abc import ABC, abstractmethod
 from typing import List
 from sklearn.model_selection import train_test_split
@@ -51,7 +51,10 @@ class NIFTI_interface(Dataset):
         elif(which_split == "test"):
             self.data = img_utils.get_tensors(test_ids, self.root, self.modes)
             self.data = img_utils.bulk_mask_filter(self.data, self.filter)
-
+        
+        #print(self.data.shape)
+        self.data = np.moveaxis(self.data, -1, 1)
+        #print(self.data.shape)
         self.data = torch.tensor(self.data)
         #Don't forget to shuffle!
         self.data = self.data[torch.randperm(self.data.shape[0]),:,:]
@@ -69,10 +72,12 @@ class NIFTI_single_folder(NIFTI_interface):
         self.init_dataset(which_split)
 
     def __getitem__(self, idx: int):
-        x = self.data[idx, :, :, :-1]
-        y = self.data[idx, :, :, -1]
-        print(x.shape)
-        print(y.shape)
+        x = self.data[idx, :-1, :, :]
+        y = self.data[idx,-1, :, :]
+        # print(x.shape)
+        # print(y.shape)
+
+
         #Make "x" 3-D, make "y" 2-D
         sample = {'x': x, 'y': y}
         return sample
@@ -92,6 +97,5 @@ if __name__ == "__main__":
         sample = dataset[i]
         print(sample.keys())
         exit()
-
 
     print("hello world")
